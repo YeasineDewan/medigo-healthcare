@@ -174,8 +174,8 @@ export default function About() {
                 <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
                   <stat.icon className="w-7 h-7" />
                 </div>
-                <h3 className="font-bold text-3xl mb-1">{stat.number}</h3>
-                <p className="text-gray-300">{stat.label}</p>
+                <h3 className="font-bold text-4xl mb-1 text-white">{stat.number}</h3>
+                <p className="text-gray-200">{stat.label}</p>
               </motion.div>
             ))}
           </div>

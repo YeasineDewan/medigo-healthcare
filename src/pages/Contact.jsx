@@ -447,14 +447,14 @@ export default function Contact() {
           <div className="bg-gray-100 rounded-2xl overflow-hidden" style={{ height: '500px' }}>
             {/* Google Maps integration */}
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.278628367075!2d90.4078!3d23.7925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!4m2!3m1!1s0x0%3A0x0!5e0!3m2!1sen!2sbd!4v1635000000000!5m2!1sen!2sbd"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d542.8795856341715!2d90.39554544999197!3d23.745811037870038!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b896706bb089%3A0xb56f55b074efcf06!2sRupayan%20Trade%20Center%2C%20114%20Kazi%20Nazrul%20Islam%20Ave%2C%20Dhaka%201205!5e0!3m2!1sen!2sbd!4v1771327857295!5m2!1sen!2sbd"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Medigo Healthcare Locations Map"
+              title="Medigo Healthcare - Rupayan Trade Center Location"
             ></iframe>
           </div>
           

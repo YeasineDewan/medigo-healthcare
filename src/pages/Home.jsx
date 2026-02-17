@@ -447,8 +447,8 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
                   <f.icon className="w-7 h-7" />
                 </div>
-                <h3 className="font-bold text-xl mb-1">{f.title}</h3>
-                <p className="text-gray-300">{f.desc}</p>
+                <h3 className="font-bold text-3xl mb-1 text-white">{f.title}</h3>
+                <p className="text-gray-200">{f.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -462,15 +462,10 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
+            className="text-center mb-12"
           >
-            <div>
-              <h2 className="text-3xl font-bold text-[#165028] mb-2">Featured Doctors</h2>
-              <p className="text-gray-600">Book appointments with our top specialists</p>
-            </div>
-            <Link to="/doctors">
-              <Button variant="outline">View All Doctors</Button>
-            </Link>
+            <h2 className="text-3xl font-bold text-[#165028] mb-2">Featured Doctors</h2>
+            <p className="text-gray-600">Book appointments with our top specialists</p>
           </motion.div>
           
           {/* 2 Rows of Doctors (6 doctors total) */}
