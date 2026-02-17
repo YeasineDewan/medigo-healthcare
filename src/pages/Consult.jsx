@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Video, Calendar, Clock, Shield, CheckCircle } from 'lucide-react';
+import { Video, Calendar, Clock, Shield, CheckCircle, Star, User, DollarSign } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import DoctorCard from '../components/features/DoctorCard';
 
@@ -11,9 +12,39 @@ const features = [
 ];
 
 const availableDoctors = [
-  { id: 1, name: 'Dr. Ahmed Hassan', specialty: 'Cardiology', rating: 4.9, reviewCount: 234, available: true },
-  { id: 2, name: 'Dr. Fatima Khan', specialty: 'Pediatrics', rating: 4.8, reviewCount: 189, available: true },
-  { id: 3, name: 'Dr. Rahman Ali', specialty: 'General Medicine', rating: 4.7, reviewCount: 312, available: true },
+  { 
+    id: 1, 
+    name: 'Dr. Ahmed Hassan', 
+    specialty: 'Cardiology', 
+    rating: 4.9, 
+    reviewCount: 234, 
+    available: true,
+    videoCallPrice: 49,
+    experience: '10+ years',
+    nextAvailable: 'Today, 2:00 PM'
+  },
+  { 
+    id: 2, 
+    name: 'Dr. Fatima Khan', 
+    specialty: 'Pediatrics', 
+    rating: 4.8, 
+    reviewCount: 189, 
+    available: true,
+    videoCallPrice: 39,
+    experience: '8+ years',
+    nextAvailable: 'Today, 3:30 PM'
+  },
+  { 
+    id: 3, 
+    name: 'Dr. Rahman Ali', 
+    specialty: 'General Medicine', 
+    rating: 4.7, 
+    reviewCount: 312, 
+    available: true,
+    videoCallPrice: 35,
+    experience: '12+ years',
+    nextAvailable: 'Tomorrow, 10:00 AM'
+  },
 ];
 
 export default function Consult() {
@@ -23,11 +54,18 @@ export default function Consult() {
     <div className="min-h-screen">
       <div className="bg-gradient-to-br from-[#f0fdf2] to-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-[#5DBB63]/20 flex items-center justify-center">
-              <Video className="w-7 h-7 text-[#165028]" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-[#5DBB63]/20 flex items-center justify-center">
+                <Video className="w-7 h-7 text-[#165028]" />
+              </div>
+              <h1 className="text-4xl font-bold text-[#165028]">Video Consultation</h1>
             </div>
-            <h1 className="text-4xl font-bold text-[#165028]">Video Consultation</h1>
+            <Link to="/book-a-call">
+              <Button className="px-6 py-3 bg-[#5DBB63] hover:bg-[#4a9a4f] text-white font-medium rounded-xl transition-colors">
+                Book a Call
+              </Button>
+            </Link>
           </div>
           <p className="text-gray-600 text-lg max-w-2xl">
             Consult doctors online from the comfort of your home. Secure, convenient, and available 24/7.
@@ -57,18 +95,34 @@ export default function Consult() {
             <h2 className="text-2xl font-bold text-[#165028] mb-6">Available for Video Call</h2>
             <div className="grid sm:grid-cols-2 gap-6">
               {availableDoctors.map((doc) => (
-                <div key={doc.id} className="flex gap-4 p-4 rounded-2xl border border-gray-100 bg-white">
-                  <div className="w-20 h-20 rounded-xl bg-[#f0fdf2] flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl font-bold text-[#165028]">{doc.name.charAt(0)}</span>
+                <div key={doc.id} className="flex gap-4 p-4 rounded-2xl border border-gray-100 bg-white hover:shadow-md transition-shadow">
+                  <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-[#5DBB63] to-[#4a9a4f] flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <User className="w-10 h-10 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-[#111827]">{doc.name}</h3>
-                    <p className="text-sm text-[#5DBB63]">{doc.specialty}</p>
-                    <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                    <p className="text-sm text-[#5DBB63] mb-2">{doc.specialty}</p>
+                    <div className="flex items-center gap-2 mb-2 text-sm text-gray-500">
                       <span>★ {doc.rating}</span>
                       <span>({doc.reviewCount} reviews)</span>
                     </div>
-                    <Button size="sm" className="mt-3">Book Video Call</Button>
+                    <div className="flex items-center gap-2 mb-3 text-sm text-gray-500">
+                      <span>• {doc.experience}</span>
+                      <span>• Next: {doc.nextAvailable}</span>
+                    </div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="w-4 h-4 text-[#165028]" />
+                        <span className="font-bold text-[#165028]">${doc.videoCallPrice}</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-[#5DBB63]">
+                        <Clock className="w-3 h-3" />
+                        <span>30 mins</span>
+                      </div>
+                    </div>
+                    <Link to={`/book-appointment/${doc.id}`}>
+                      <Button size="sm" className="w-full">Book Video Call</Button>
+                    </Link>
                   </div>
                 </div>
               ))}

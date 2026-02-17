@@ -19,6 +19,8 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Careers from './pages/Careers';
 import Consult from './pages/Consult';
+import BookACall from './pages/BookACall';
+import BookAppointment from './pages/BookAppointment';
 import LabTests from './pages/LabTests';
 import LabTestDetails from './pages/LabTestDetails';
 import LabTestBooking from './pages/LabTestBooking';
@@ -93,6 +95,8 @@ function App() {
           <Route path="blog/:id" element={<BlogPost />} />
           <Route path="careers" element={<Careers />} />
           <Route path="consult" element={<Consult />} />
+          <Route path="book-a-call" element={<BookACall />} />
+          <Route path="book-appointment/:doctorId" element={<BookAppointment />} />
           <Route path="/lab-tests" element={<LabTests />} />
           <Route path="/lab-tests/:testId" element={<LabTestDetails />} />
           <Route path="/lab-tests/:testId/book" element={<LabTestBooking />} />

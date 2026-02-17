@@ -74,13 +74,20 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-18">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-[#165028] flex items-center justify-center">
-              <Stethoscope className="w-6 h-6 text-white" />
+          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <img 
+              src="/assets/logo.png" 
+              alt="Medigo Healthcare" 
+              className="w-14 h-14 rounded-xl object-contain transition-transform group-hover:scale-105"
+            />
+            <div className="hidden sm:block">
+              <span className="font-bold text-xl text-[#165028] block leading-tight">
+                Medigo
+              </span>
+              <span className="font-medium text-sm text-[#165028]/80 block leading-tight">
+                Healthcare
+              </span>
             </div>
-            <span className="font-bold text-xl text-[#165028] hidden sm:block">
-              Medigo
-            </span>
           </Link>
 
           {/* Desktop Nav */}
