@@ -53,8 +53,8 @@ export default function Contact() {
   const offices = [
     {
       city: 'Dhaka',
-      address: '123 Medical Center Road, Dhanmondi, Dhaka-1205',
-      phone: '+880 2 1234 5678',
+      address: 'Rupayan Trade Center, 3rd Floor 114 Kazi Nazrul Islam Avenue, Banglamotor, Dhaka 1100',
+      phone: '+880 1886-643626',
       email: 'dhaka@medigo.com',
       hours: 'Mon-Sat: 9:00 AM - 8:00 PM',
       coordinates: { lat: 23.7925, lng: 90.4078 },
@@ -153,7 +153,7 @@ export default function Contact() {
                 concerns, or healthcare needs you may have.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="tel:+8801999999999" className="inline-flex items-center gap-2 px-6 py-3 bg-[#5DBB63] text-white rounded-lg hover:bg-[#4a9a4f] transition-colors">
+                <a href="tel:+8801886643626" className="inline-flex items-center gap-2 px-6 py-3 bg-[#5DBB63] text-white rounded-lg hover:bg-[#4a9a4f] transition-colors">
                   <Phone className="w-5 h-5" />
                   Call Now
                 </a>
@@ -195,8 +195,8 @@ export default function Contact() {
               </div>
               <h3 className="font-semibold text-[#111827] text-lg mb-2">Emergency Hotline</h3>
               <p className="text-gray-600 mb-4">24/7 emergency medical assistance</p>
-              <a href="tel:+8801999999999" className="inline-flex items-center gap-2 text-red-600 font-medium">
-                +880 1999 999 999 <ArrowRight className="w-4 h-4" />
+              <a href="tel:+8801886643626" className="inline-flex items-center gap-2 text-red-600 font-medium">
+                +880 1886-643626 <ArrowRight className="w-4 h-4" />
               </a>
             </motion.div>
 

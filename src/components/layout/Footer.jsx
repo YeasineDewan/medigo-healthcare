@@ -107,9 +107,9 @@ export default function Footer() {
 
             {/* Contact */}
             <div className="space-y-2">
-              <a href="tel:+8801999999999" className="flex items-center gap-2 text-gray-300 hover:text-[#5DBB63] text-sm transition-colors">
+              <a href="tel:+8801886643626" className="flex items-center gap-2 text-gray-300 hover:text-[#5DBB63] text-sm transition-colors">
                 <Phone className="w-4 h-4" />
-                +880 1999 999 999
+                +880 1886-643626
               </a>
               <a href="mailto:info@medigo.com" className="flex items-center gap-2 text-gray-300 hover:text-[#5DBB63] text-sm transition-colors">
                 <Mail className="w-4 h-4" />
