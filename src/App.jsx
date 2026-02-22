@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Doctors from './pages/Doctors';
 import PublicDoctorProfile from './pages/DoctorProfile';
 import Pharmacy from './pages/Pharmacy';
-import ProductDetail from './pages/ProductDetail';
+import PharmacyProductDetail from './pages/PharmacyProductDetail';
 import CategoryProducts from './pages/CategoryProducts';
 import Emergency from './pages/Emergency';
 import Cart from './pages/Cart';
@@ -82,7 +82,7 @@ function App() {
           <Route path="doctors" element={<Doctors />} />
           <Route path="doctors/:id" element={<PublicDoctorProfile />} />
           <Route path="pharmacy" element={<Pharmacy />} />
-          <Route path="pharmacy/product/:id" element={<ProductDetail />} />
+          <Route path="pharmacy/product/:id" element={<PharmacyProductDetail />} />
           <Route path="pharmacy/category/:id" element={<CategoryProducts />} />
           <Route path="emergency" element={<Emergency />} />
           <Route path="cart" element={<Cart />} />

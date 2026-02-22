@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Search, Upload, Filter, Loader } from 'lucide-react';
+import { 
+  Search, Upload, Filter, Loader, ShoppingCart, Star, Heart, Eye, 
+  Package, Clock, Shield, Truck, AlertCircle, ChevronDown, X,
+  TrendingUp, Award, Users, Zap, Pill, Beaker, TestTube, Activity,
+  Phone, Mail, MapPin, CheckCircle, Info
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '../components/features/ProductCard';
 import CategoryGrid from '../components/features/CategoryGrid';
 import FileUpload from '../components/core/FileUpload';
-import { categoryService, productService } from '../services/api';
+import { categoryService, productService, prescriptionService } from '../services/api';
+import { useCartStore } from '../store/cartStore';
 
-const categories = ['All', 'Vitamins', 'Pain Relief', 'Digestive', 'Cold & Flu', 'Diabetes', 'Prescription'];
+// Enhanced mock data with more realistic products
 const mockProducts = [
   { 
     id: 1, 
@@ -13,11 +20,18 @@ const mockProducts = [
     genericName: 'Acetaminophen', 
     brand: 'Square Pharmaceutical', 
     price: 120,
+    discount_price: 108,
     category: 'Pain Relief',
     inStock: true,
     prescriptionRequired: false,
     rating: 4.5,
-    description: 'Effective pain and fever relief'
+    reviews: 234,
+    description: 'Effective pain and fever relief',
+    manufacturer: 'Square Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '20 tablets',
+    featured: true,
+    stock_quantity: 150
   },
   { 
     id: 2, 
@@ -25,11 +39,18 @@ const mockProducts = [
     genericName: 'Cholecalciferol', 
     brand: 'Incepta Pharmaceuticals', 
     price: 350,
+    discount_price: 315,
     category: 'Vitamins',
     inStock: true,
     prescriptionRequired: false,
     rating: 4.7,
-    description: 'Essential for bone health and immunity'
+    reviews: 189,
+    description: 'Essential for bone health and immunity',
+    manufacturer: 'Incepta Pharmaceuticals Ltd.',
+    dosage_form: 'Softgel Capsule',
+    pack_size: '30 capsules',
+    featured: true,
+    stock_quantity: 89
   },
   { 
     id: 3, 
@@ -41,7 +62,13 @@ const mockProducts = [
     inStock: true,
     prescriptionRequired: true,
     rating: 4.3,
-    description: 'Relieves heartburn and acid reflux'
+    reviews: 156,
+    description: 'Relieves heartburn and acid reflux',
+    manufacturer: 'Beximco Pharmaceuticals Ltd.',
+    dosage_form: 'Capsule',
+    pack_size: '14 capsules',
+    featured: false,
+    stock_quantity: 45
   },
   { 
     id: 4, 
@@ -49,11 +76,18 @@ const mockProducts = [
     genericName: 'Metformin HCl', 
     brand: 'Square Pharmaceutical', 
     price: 95,
+    discount_price: 85,
     category: 'Diabetes',
     inStock: true,
     prescriptionRequired: true,
     rating: 4.6,
-    description: 'Manages blood sugar levels'
+    reviews: 312,
+    description: 'Manages blood sugar levels',
+    manufacturer: 'Square Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '50 tablets',
+    featured: true,
+    stock_quantity: 200
   },
   { 
     id: 5, 
@@ -65,7 +99,13 @@ const mockProducts = [
     inStock: true,
     prescriptionRequired: true,
     rating: 4.4,
-    description: 'Antibiotic for bacterial infections'
+    reviews: 98,
+    description: 'Antibiotic for bacterial infections',
+    manufacturer: 'Incepta Pharmaceuticals Ltd.',
+    dosage_form: 'Capsule',
+    pack_size: '15 capsules',
+    featured: false,
+    stock_quantity: 67
   },
   { 
     id: 6, 
@@ -73,11 +113,18 @@ const mockProducts = [
     genericName: 'Cetirizine HCl', 
     brand: 'Beximco Pharma', 
     price: 65,
+    discount_price: 58,
     category: 'Cold & Flu',
     inStock: true,
     prescriptionRequired: false,
     rating: 4.2,
-    description: 'Relieves allergy symptoms'
+    reviews: 145,
+    description: 'Relieves allergy symptoms',
+    manufacturer: 'Beximco Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '30 tablets',
+    featured: false,
+    stock_quantity: 120
   },
   { 
     id: 7, 
@@ -89,7 +136,13 @@ const mockProducts = [
     inStock: false,
     prescriptionRequired: false,
     rating: 4.5,
-    description: 'Anti-inflammatory pain relief'
+    reviews: 78,
+    description: 'Anti-inflammatory pain relief',
+    manufacturer: 'Square Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '20 tablets',
+    featured: false,
+    stock_quantity: 0
   },
   { 
     id: 8, 
@@ -97,12 +150,67 @@ const mockProducts = [
     genericName: 'Calcium Carbonate', 
     brand: 'Incepta Pharmaceuticals', 
     price: 420,
+    discount_price: 378,
     category: 'Vitamins',
     inStock: true,
     prescriptionRequired: false,
     rating: 4.6,
-    description: 'Bone health supplement'
+    reviews: 203,
+    description: 'Bone health supplement',
+    manufacturer: 'Incepta Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '60 tablets',
+    featured: true,
+    stock_quantity: 95
   },
+  { 
+    id: 9, 
+    name: 'Azithromycin 250mg', 
+    genericName: 'Azithromycin', 
+    brand: 'Beximco Pharma', 
+    price: 220,
+    category: 'Prescription',
+    inStock: true,
+    prescriptionRequired: true,
+    rating: 4.3,
+    reviews: 87,
+    description: 'Broad-spectrum antibiotic',
+    manufacturer: 'Beximco Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '6 tablets',
+    featured: false,
+    stock_quantity: 34
+  },
+  { 
+    id: 10, 
+    name: 'Aspirin 75mg', 
+    genericName: 'Acetylsalicylic Acid', 
+    brand: 'Square Pharmaceutical', 
+    price: 45,
+    discount_price: 40,
+    category: 'Heart Health',
+    inStock: true,
+    prescriptionRequired: false,
+    rating: 4.4,
+    reviews: 167,
+    description: 'Low-dose aspirin for heart health',
+    manufacturer: 'Square Pharmaceuticals Ltd.',
+    dosage_form: 'Tablet',
+    pack_size: '30 tablets',
+    featured: false,
+    stock_quantity: 180
+  }
+];
+
+const mockCategories = [
+  { id: 1, name: 'Vitamins', product_count: 45, icon: Pill, color: 'bg-purple-100 text-purple-600' },
+  { id: 2, name: 'Pain Relief', product_count: 38, icon: Activity, color: 'bg-blue-100 text-blue-600' },
+  { id: 3, name: 'Digestive', product_count: 29, icon: Beaker, color: 'bg-green-100 text-green-600' },
+  { id: 4, name: 'Cold & Flu', product_count: 31, icon: TestTube, color: 'bg-cyan-100 text-cyan-600' },
+  { id: 5, name: 'Diabetes', product_count: 24, icon: Shield, color: 'bg-red-100 text-red-600' },
+  { id: 6, name: 'Heart Health', product_count: 18, icon: Heart, color: 'bg-pink-100 text-pink-600' },
+  { id: 7, name: 'Prescription', product_count: 67, icon: Package, color: 'bg-orange-100 text-orange-600' },
+  { id: 8, name: 'First Aid', product_count: 22, icon: Zap, color: 'bg-yellow-100 text-yellow-600' }
 ];
 
 export default function Pharmacy() {
@@ -113,7 +221,15 @@ export default function Pharmacy() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [sortBy, setSortBy] = useState('relevance');
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
+  const [showFilters, setShowFilters] = useState(false);
+  const [wishlist, setWishlist] = useState([]);
+  const [showQuickView, setShowQuickView] = useState(null);
+  const items = useCartStore((s) => s.items);
+  const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
   useEffect(() => {
     loadCategories();
@@ -123,46 +239,45 @@ export default function Pharmacy() {
 
   useEffect(() => {
     loadProducts();
-  }, [category, search]);
+  }, [category, search, sortBy, priceRange]);
 
   const loadCategories = async () => {
     try {
       const response = await categoryService.getAll({ parent_only: true });
-      setCategories(response.data || []);
+      setCategories(response.data?.data || response.data || mockCategories);
+      setError(null);
     } catch (error) {
       console.error('Failed to load categories:', error);
-      // Use fallback categories
-      setCategories([
-        { id: 1, name: 'Vitamins', product_count: 0 },
-        { id: 2, name: 'Pain Relief', product_count: 0 },
-        { id: 3, name: 'Digestive', product_count: 0 },
-        { id: 4, name: 'Cold & Flu', product_count: 0 },
-        { id: 5, name: 'Diabetes', product_count: 0 },
-      ]);
+      setError('Failed to load categories');
+      setCategories(mockCategories);
     }
   };
 
   const loadProducts = async () => {
     try {
       setLoading(true);
+      setError(null);
       const params = {
         search: search || undefined,
         category: category !== 'All' ? category : undefined,
         per_page: 20,
       };
       const response = await productService.getAll(params);
-      setProducts(response.data.data || response.data || []);
+      const productsData = response.data?.data || response.data || [];
+      setProducts(productsData);
     } catch (error) {
       console.error('Failed to load products:', error);
+      setError('Failed to load products');
       // Use mock products as fallback
-      setProducts(mockProducts.filter(p => {
+      const filteredProducts = mockProducts.filter(p => {
         const matchSearch = !search || 
           p.name.toLowerCase().includes(search.toLowerCase()) || 
           p.genericName?.toLowerCase().includes(search.toLowerCase()) ||
           p.brand?.toLowerCase().includes(search.toLowerCase());
         const matchCategory = category === 'All' || p.category === category;
         return matchSearch && matchCategory;
-      }));
+      });
+      setProducts(filteredProducts);
     } finally {
       setLoading(false);
     }
@@ -171,9 +286,11 @@ export default function Pharmacy() {
   const loadFeaturedProducts = async () => {
     try {
       const response = await productService.getAll({ featured: true, per_page: 8 });
-      setFeaturedProducts(response.data.data || response.data || []);
+      setFeaturedProducts(response.data?.data || response.data || []);
     } catch (error) {
       console.error('Failed to load featured products:', error);
+      // Set fallback featured products
+      setFeaturedProducts(mockProducts.filter(p => p.featured).slice(0, 8));
     }
   };
 
@@ -237,8 +354,8 @@ export default function Pharmacy() {
         )}
 
         {/* Search and Filter */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-10">
-          <div className="flex-1 relative">
+        <div className="space-y-4 mb-10">
+          <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="search"
@@ -248,12 +365,12 @@ export default function Pharmacy() {
               className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#5DBB63] focus:ring-2 focus:ring-[#5DBB63]/20 outline-none transition-all"
             />
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
+          <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
             {categoryButtons.map((c) => (
               <button
                 key={c}
                 onClick={() => setCategory(c)}
-                className={`px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-colors ${
+                className={`px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
                   category === c ? 'bg-[#165028] text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -263,8 +380,18 @@ export default function Pharmacy() {
           </div>
         </div>
 
+        {/* Error Display */}
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4">
+            <div className="flex items-center gap-2 text-red-700">
+              <AlertCircle className="w-5 h-5" />
+              <span className="font-medium">{error}</span>
+            </div>
+          </div>
+        )}
+
         {/* Results Summary */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <p className="text-gray-600">
             {loading ? (
               <span className="flex items-center gap-2">

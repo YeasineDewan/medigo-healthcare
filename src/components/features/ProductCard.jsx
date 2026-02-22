@@ -68,7 +68,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
             </div>
           )}
           
-          {prescriptionRequired && (
+          {needsPrescription && (
             <div className="absolute top-2 right-2 px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">
               Rx Required
             </div>
@@ -116,11 +116,11 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
               className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
                 inStock === false
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : prescriptionRequired
+                  : needsPrescription
                   ? 'bg-orange-100 text-orange-700 hover:bg-orange-200'
                   : 'bg-[#5DBB63] text-white hover:bg-[#4a9a4f]'
               }`}
-              aria-label={prescriptionRequired ? "Upload prescription" : "Add to cart"}
+              aria-label={needsPrescription ? "Upload prescription" : "Add to cart"}
             >
               <Plus className="w-5 h-5" />
             </button>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight, Package } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 
 export default function CategoryGrid({ categories, featured = false }) {
@@ -13,7 +14,7 @@ export default function CategoryGrid({ categories, featured = false }) {
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6">
-      {displayCategories.map((category) => (
+      {displayCategories.map((category, index) => (
         <motion.div
           key={category.id}
           initial={{ opacity: 0, y: 20 }}

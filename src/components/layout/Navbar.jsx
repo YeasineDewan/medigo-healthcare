@@ -191,6 +191,13 @@ export default function Navbar() {
               )}
             </button>
             <Link
+              to="/auth?tab=signup"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg border border-[#5DBB63] text-[#5DBB63] hover:bg-[#5DBB63]/10 font-medium transition-colors"
+            >
+              <User className="w-4 h-4" />
+              Sign Up
+            </Link>
+            <Link
               to="/auth"
               className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-[#165028] text-white hover:bg-[#0f3d1c] font-medium transition-colors"
             >
@@ -255,7 +262,15 @@ export default function Navbar() {
                 >
                   Emergency Services
                 </Link>
-                <div className="pt-4 border-t mt-4">
+                <div className="pt-4 border-t mt-4 space-y-2">
+                  <Link
+                    to="/auth?tab=signup"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-lg border border-[#5DBB63] text-[#5DBB63] font-medium"
+                  >
+                    <User className="w-4 h-4" />
+                    Sign Up
+                  </Link>
                   <Link
                     to="/auth"
                     onClick={() => setMobileOpen(false)}

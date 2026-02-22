@@ -444,11 +444,11 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="text-center text-white"
               >
-                <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
-                  <f.icon className="w-7 h-7" />
+                <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-4">
+                  <f.icon className="w-7 h-7 text-yellow-400" />
                 </div>
-                <h3 className="font-bold text-3xl mb-1 text-white">{f.title}</h3>
-                <p className="text-gray-200">{f.desc}</p>
+                <h3 className="font-bold text-3xl mb-1 text-yellow-400" style={{color: '#FBBF24', textShadow: '0 2px 4px rgba(0,0,0,0.5)'}}>{f.title}</h3>
+                <p className="text-yellow-100 font-semibold">{f.desc}</p>
               </motion.div>
             ))}
           </div>

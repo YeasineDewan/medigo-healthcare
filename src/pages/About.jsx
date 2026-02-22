@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   Shield,
   Heart,
@@ -27,6 +29,8 @@ import {
   Rocket,
   Eye,
   MessageCircle,
+  Download,
+  Loader2,
 } from 'lucide-react';
 
 const values = [
@@ -102,6 +106,32 @@ const technologies = [
 ];
 
 export default function About() {
+  const navigate = useNavigate();
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleBookConsultation = () => {
+    navigate('/consult');
+  };
+
+  const handleDownloadBrochure = async () => {
+    setIsDownloading(true);
+    try {
+      const brochureUrl = '/brochure.pdf';
+      const link = document.createElement('a');
+      link.href = brochureUrl;
+      link.setAttribute('download', 'Medigo-Healthcare-Brochure.pdf');
+      link.setAttribute('target', '_blank');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading brochure:', error);
+      alert('Unable to download brochure. Please try again later.');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -131,13 +161,24 @@ export default function About() {
                 connecting patients with quality medical care anytime, anywhere.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#5DBB63] text-white rounded-lg hover:bg-[#4a9a4f] transition-colors">
+                <button 
+                  onClick={handleBookConsultation}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#5DBB63] text-white rounded-lg hover:bg-[#4a9a4f] transition-colors"
+                >
                   <Stethoscope className="w-5 h-5" />
                   Book Consultation
                 </button>
-                <button className="inline-flex items-center gap-2 px-6 py-3 border border-[#5DBB63] text-[#5DBB63] rounded-lg hover:bg-[#5DBB63]/10 transition-colors">
-                  <FileText className="w-5 h-5" />
-                  Download Brochure
+                <button 
+                  onClick={handleDownloadBrochure}
+                  disabled={isDownloading}
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-[#5DBB63] text-[#5DBB63] rounded-lg hover:bg-[#5DBB63]/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isDownloading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Download className="w-5 h-5" />
+                  )}
+                  {isDownloading ? 'Downloading...' : 'Download Brochure'}
                 </button>
               </div>
             </motion.div>
@@ -169,13 +210,13 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center text-white"
+                className="text-center"
               >
-                <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="w-7 h-7" />
+                <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-4">
+                  <stat.icon className="w-7 h-7 text-yellow-400" />
                 </div>
-                <h3 className="font-bold text-4xl mb-1 text-white">{stat.number}</h3>
-                <p className="text-gray-200">{stat.label}</p>
+                <h3 className="font-bold text-4xl mb-1 text-yellow-400" style={{color: '#FBBF24', textShadow: '0 2px 4px rgba(0,0,0,0.5)'}}>{stat.number}</h3>
+                <p className="text-yellow-100 font-semibold">{stat.label}</p>
               </motion.div>
             ))}
           </div>
