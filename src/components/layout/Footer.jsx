@@ -120,7 +120,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-[#86efac] mb-4 text-sm uppercase tracking-wider" style={{textShadow: '0 2px 4px rgba(0,0,0,0.2)'}}>Quick Links</h4>
+            <h4 className="font-bold text-[#165028] mb-4 text-sm uppercase tracking-wider" style={{textShadow: '0 2px 4px rgba(0,0,0,0.2)'}}>Quick Links</h4>
             <ul className="space-y-2.5">
               {footerLinks.Quick.map((link) => (
                 <li key={link.href}>

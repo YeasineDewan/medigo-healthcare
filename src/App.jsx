@@ -61,6 +61,8 @@ import PatientOrders from './pages/patient/PatientOrders';
 import PatientRecords from './pages/patient/PatientRecords';
 import PatientPrescriptions from './pages/patient/PatientPrescriptions';
 import PatientProfile from './pages/patient/PatientProfile';
+import JoinAsDoctor from './pages/JoinAsDoctor';
+import PartnerHospital from './pages/PartnerHospital';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -104,6 +106,8 @@ function App() {
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms" element={<Terms />} />
           <Route path="cookies" element={<Cookies />} />
+          <Route path="join-as-doctor" element={<JoinAsDoctor />} />
+          <Route path="partner-hospital" element={<PartnerHospital />} />
         </Route>
 
         {/* Auth */}

@@ -108,9 +108,44 @@ const technologies = [
 export default function About() {
   const navigate = useNavigate();
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(null);
 
   const handleBookConsultation = () => {
     navigate('/consult');
+  };
+
+  const handleJoinAsDoctor = () => {
+    // Track analytics event
+    if (window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'navigation',
+        event_label: 'join_as_doctor',
+        value: 1
+      });
+    }
+    
+    setIsNavigating('doctor');
+    setTimeout(() => {
+      navigate('/join-as-doctor');
+      setIsNavigating(null);
+    }, 300);
+  };
+
+  const handlePartnerHospital = () => {
+    // Track analytics event
+    if (window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'navigation',
+        event_label: 'partner_hospital',
+        value: 1
+      });
+    }
+    
+    setIsNavigating('hospital');
+    setTimeout(() => {
+      navigate('/partner-hospital');
+      setIsNavigating(null);
+    }, 300);
   };
 
   const handleDownloadBrochure = async () => {
@@ -441,14 +476,68 @@ export default function About() {
               Medigo has something for you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#165028] rounded-lg hover:bg-gray-100 transition-colors">
-                <Stethoscope className="w-5 h-5" />
-                Join as Doctor
-              </button>
-              <button className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white border border-white/30 rounded-lg hover:bg-white/20 transition-colors">
-                <Hospital className="w-5 h-5" />
-                Partner Hospital
-              </button>
+              <motion.button 
+                onClick={handleJoinAsDoctor}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleJoinAsDoctor();
+                  }
+                }}
+                disabled={isNavigating === 'doctor'}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#165028] rounded-lg hover:bg-gray-100 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white/50"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                role="button"
+                tabIndex={0}
+                aria-label="Join as a doctor on Medigo platform"
+              >
+                {isNavigating === 'doctor' ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Loader2 className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <Stethoscope className="w-5 h-5" />
+                )}
+                <span className="font-medium">
+                  {isNavigating === 'doctor' ? 'Loading...' : 'Join as Doctor'}
+                </span>
+              </motion.button>
+              <motion.button 
+                onClick={handlePartnerHospital}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handlePartnerHospital();
+                  }
+                }}
+                disabled={isNavigating === 'hospital'}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white border border-white/30 rounded-lg hover:bg-white/20 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white/50"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                role="button"
+                tabIndex={0}
+                aria-label="Partner your hospital with Medigo platform"
+              >
+                {isNavigating === 'hospital' ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Loader2 className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <Hospital className="w-5 h-5" />
+                )}
+                <span className="font-medium">
+                  {isNavigating === 'hospital' ? 'Loading...' : 'Partner Hospital'}
+                </span>
+              </motion.button>
             </div>
           </motion.div>
         </div>
