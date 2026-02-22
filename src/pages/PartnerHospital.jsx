@@ -4,7 +4,8 @@ import {
   Building, Users, MapPin, Phone, Mail, Globe, Award, Shield,
   TrendingUp, Clock, CheckCircle, Star, Heart, Stethoscope,
   FileText, Upload, ChevronRight, ArrowRight, Calendar,
-  DollarSign, Activity, Target, Zap, Headphones, BarChart
+  DollarSign, Activity, Target, Zap, Headphones, BarChart, X, Check,
+  Sparkles, Trophy
 } from 'lucide-react';
 
 export default function PartnerHospital() {
@@ -32,6 +33,7 @@ export default function PartnerHospital() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -53,6 +55,7 @@ export default function PartnerHospital() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    setShowSuccessModal(true);
   };
 
   const nextStep = () => {
@@ -769,6 +772,132 @@ export default function PartnerHospital() {
           </div>
         </div>
       </section>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="bg-white rounded-2xl max-w-md w-full p-8 text-center relative"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Success Icon */}
+            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="text-blue-600"
+              >
+                <Trophy className="w-10 h-10" />
+              </motion.div>
+            </div>
+
+            {/* Success Message */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-2xl font-bold text-gray-800 mb-4"
+            >
+              Congratulations!
+            </motion.h2>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-gray-600 mb-6"
+            >
+              Your partnership application has been successfully submitted! Our team will review your hospital details and contact you within 48 hours.
+            </motion.p>
+
+            {/* Success Details */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-blue-50 rounded-lg p-4 mb-6 text-left"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Check className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">Application Received</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <Check className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">Verification Process Started</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">Partnership Team Notified</span>
+              </div>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex gap-3"
+            >
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Continue
+              </button>
+              <button
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  // Reset form
+                  setFormData({
+                    hospitalName: '',
+                    contactPerson: '',
+                    email: '',
+                    phone: '',
+                    address: '',
+                    city: '',
+                    state: '',
+                    zipCode: '',
+                    website: '',
+                    establishedYear: '',
+                    bedCapacity: '',
+                    specialties: [],
+                    accreditation: '',
+                    emergencyServices: false,
+                    ambulanceServices: false,
+                    pharmacyAvailable: false,
+                    labServices: false,
+                    description: '',
+                    terms: false
+                  });
+                  setCurrentStep(1);
+                }}
+                className="flex-1 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+              >
+                New Application
+              </button>
+            </motion.div>
+
+            {/* Decorative Elements */}
+            <div className="absolute -top-2 -right-2">
+              <Sparkles className="w-8 h-8 text-yellow-400" />
+            </div>
+            <div className="absolute -bottom-2 -left-2">
+              <Sparkles className="w-6 h-6 text-blue-400" />
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

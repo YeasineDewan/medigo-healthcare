@@ -4,7 +4,8 @@ import {
   User, Mail, Phone, MapPin, Briefcase, Award, Clock, 
   FileText, CheckCircle, Star, Users, TrendingUp, Shield,
   Stethoscope, Heart, Calendar, DollarSign, GraduationCap,
-  Camera, Upload, ChevronRight, ArrowRight
+  Camera, Upload, ChevronRight, ArrowRight, X, Check,
+  Sparkles, Trophy
 } from 'lucide-react';
 
 export default function JoinAsDoctor() {
@@ -29,6 +30,7 @@ export default function JoinAsDoctor() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -41,6 +43,7 @@ export default function JoinAsDoctor() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    setShowSuccessModal(true);
   };
 
   const nextStep = () => {
@@ -613,6 +616,129 @@ export default function JoinAsDoctor() {
           </div>
         </div>
       </section>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="bg-white rounded-2xl max-w-md w-full p-8 text-center relative"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Success Icon */}
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="text-green-600"
+              >
+                <Trophy className="w-10 h-10" />
+              </motion.div>
+            </div>
+
+            {/* Success Message */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-2xl font-bold text-gray-800 mb-4"
+            >
+              Congratulations!
+            </motion.h2>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-gray-600 mb-6"
+            >
+              Your application has been successfully submitted! Our team will review your profile and contact you within 3-5 business days.
+            </motion.p>
+
+            {/* Success Details */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-green-50 rounded-lg p-4 mb-6 text-left"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Check className="w-4 h-4 text-green-600" />
+                <span className="text-sm font-medium text-green-800">Application Received</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <Check className="w-4 h-4 text-green-600" />
+                <span className="text-sm font-medium text-green-800">Verification Process Started</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-600" />
+                <span className="text-sm font-medium text-green-800">Email Confirmation Sent</span>
+              </div>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex gap-3"
+            >
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="flex-1 px-4 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+              >
+                Continue
+              </button>
+              <button
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  // Reset form
+                  setFormData({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phone: '',
+                    specialization: '',
+                    experience: '',
+                    qualification: '',
+                    license: '',
+                    hospital: '',
+                    city: '',
+                    state: '',
+                    zipCode: '',
+                    consultationFee: '',
+                    availability: '',
+                    about: '',
+                    terms: false
+                  });
+                  setCurrentStep(1);
+                }}
+                className="flex-1 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+              >
+                New Application
+              </button>
+            </motion.div>
+
+            {/* Decorative Elements */}
+            <div className="absolute -top-2 -right-2">
+              <Sparkles className="w-8 h-8 text-yellow-400" />
+            </div>
+            <div className="absolute -bottom-2 -left-2">
+              <Sparkles className="w-6 h-6 text-blue-400" />
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
